@@ -160,13 +160,23 @@ const Navbar = ({
           url: "/genre/others",
         },
       ],
-},
+    },
+    {
+      title: "Watchlist",
+      url: "/watchlist",
+    },
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+    },
     
   ],
 
   auth = {
     login: { title: "Login", url: "/login", authrequired: false },
     signup: { title: "Register", url: "/register",authrequired: false },
+    profile: { title: "Profile", url: "/profile", authrequired: true },
+    logout: { title: "Logout", url: "/logout", authrequired: true },
   },
   className,
 }: Navbar1Props) => {
