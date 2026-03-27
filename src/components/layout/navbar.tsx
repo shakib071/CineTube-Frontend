@@ -1,6 +1,15 @@
 "use client";
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import Image from "next/image";
+import { Baby, Clapperboard, Menu,  Sword, Theater, Tv,  } from "lucide-react";
+import {
+  Flame,
+  Laugh,
+  Eye,
+  Rocket,
+  Skull,
+  Heart,
+} from "lucide-react";
 
 import {
   Accordion,
@@ -26,6 +35,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "./modeToggle";
+import Link from "next/link";
 
 interface MenuItem {
   title: string;
@@ -34,6 +44,7 @@ interface MenuItem {
   icon?: React.ReactNode;
   items?: MenuItem[];
 }
+
 
 interface Navbar1Props {
   className?: string;
@@ -49,117 +60,139 @@ interface Navbar1Props {
     login: {
       title: string;
       url: string;
+      authrequired?: boolean;
     };
     signup: {
       title: string;
       url: string;
+      authrequired?: boolean;
     };
   };
 }
 
 const Navbar = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    url: "/",
+    src: "/",
     alt: "logo",
     title: "Shadcnblocks.com",
   },
   menu = [
-    { title: "Home", url: "#" },
+    { title: "Home", url: "/" },
     {
-      title: "Products",
+      title: "Movies",
+      url: "/movies",
+    },
+    {
+      title: "Series",
+      url: "/series",
+    },
+    {
+      title: "Top Rated",
+      url: "/top-rated",
+    },
+
+
+    {
+      title: "Browse",
       url: "#",
       items: [
         {
-          title: "Blog",
-          description: "The latest industry news, updates, and info",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "#",
+          title: "Action",
+          description: "High-octane thrills, explosive sequences and epic battles",
+          icon: <Flame className="size-5 shrink-0 text-orange-500" />,
+          url: "/genre/action",
         },
         {
-          title: "Company",
-          description: "Our mission is to innovate and empower the world",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
+          title: "Drama",
+          description: "Powerful stories driven by emotion and human connection",
+          icon: <Theater className="size-5 shrink-0 text-purple-500" />,
+          url: "/genre/drama",
         },
         {
-          title: "Careers",
-          description: "Browse job listing and discover our workspace",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
+          title: "Comedy",
+          description: "Laugh out loud moments and feel-good entertainment",
+          icon: <Laugh className="size-5 shrink-0 text-yellow-400" />,
+          url: "/genre/comedy",
         },
         {
-          title: "Support",
-          description:
-            "Get in touch with our support team or visit our community forums",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
+          title: "Thriller",
+          description: "Edge of your seat suspense that keeps you guessing",
+          icon: <Eye className="size-5 shrink-0 text-red-500" />,
+          url: "/genre/thriller",
+        },
+        {
+          title: "Sci-Fi",
+          description: "Explore the future, space and technology gone beyond limits",
+          icon: <Rocket className="size-5 shrink-0 text-blue-400" />,
+          url: "/genre/sci-fi",
+        },
+        {
+          title: "Horror",
+          description: "Dark, terrifying tales that will haunt your nightmares",
+          icon: <Skull className="size-5 shrink-0 text-gray-400" />,
+          url: "/genre/horror",
+        },
+        {
+          title: "Romance",
+          description: "Heartwarming love stories that make you feel everything",
+          icon: <Heart className="size-5 shrink-0 text-pink-500" />,
+          url: "/genre/romance",
+        },
+        {
+          title: "Adventure",
+          description: "Epic journeys, daring quests and uncharted territories",
+          icon: <Sword className="size-5 shrink-0 text-amber-500" />,
+          url: "/genre/adventure",
+        },
+      
+        {
+          title: "Animation",
+          description: "Imaginative worlds brought to life frame by frame",
+          icon: <Baby className="size-5 shrink-0 text-green-400" />,
+          url: "/genre/animation",
+        },
+       
+        {
+          title: "Others",
+          description: "Discover hidden gems that don't fit the usual categories",
+          icon: <Clapperboard className="size-5 shrink-0 text-rose-400" />,
+          url: "/genre/others",
         },
       ],
-    },
-    {
-      title: "Resources",
-      url: "#",
-      items: [
-        {
-          title: "Help Center",
-          description: "Get all the answers you need right here",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Contact Us",
-          description: "We are here to help you with any questions you have",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Status",
-          description: "Check the current status of our services and APIs",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Terms of Service",
-          description: "Our terms and conditions for using our services",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Pricing",
-      url: "#",
-    },
-    {
-      title: "Blog",
-      url: "#",
-    },
+},
+    
   ],
+
   auth = {
-    login: { title: "Login", url: "#" },
-    signup: { title: "Sign up", url: "#" },
+    login: { title: "Login", url: "/login", authrequired: false },
+    signup: { title: "Register", url: "/register",authrequired: false },
   },
   className,
 }: Navbar1Props) => {
+
   return (
-    <section className={cn("py-4", className)}>
-      <div className="container">
+    <section className={cn("py-4 shadow-md mb-4", className)}>
+      <div className="container mx-auto ">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
-          <div className="flex items-center gap-6">
+          <div className="flex  items-center gap-6">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              />
-              <span className="text-lg font-semibold tracking-tighter">
-                {logo.title}
+            <Link href={logo.url} className="flex items-center gap-2 group">
+              <div className="relative">
+                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
+                  <Tv className="w-4 h-4 text-white" />
+                </div>
+                <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
+              </div>
+              <span
+                className="text-xl font-black tracking-tight "
+                style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
+              >
+                Cine<span className="text-red-500">Tube</span>
               </span>
-            </a>
-            <div className="flex items-center">
+            </Link>
+            <div className="flex  items-center">
               <NavigationMenu>
                 <NavigationMenuList>
                   {menu.map((item) => renderMenuItem(item))}
@@ -168,6 +201,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
+          
             <ModeToggle />
             <Button asChild variant="outline" size="sm">
               <a href={auth.login.url}>{auth.login.title}</a>
@@ -183,11 +217,19 @@ const Navbar = ({
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              />
+              {logo.src ? (
+                <Image
+                  src={logo.src}
+                  className="max-h-8 dark:invert"
+                  alt={logo.alt}
+                  width={32}
+                  height={32}
+                />
+              ) : (
+                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                  <Tv className="w-4 h-4 text-white" />
+                </div>
+              )}
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -199,11 +241,19 @@ const Navbar = ({
                 <SheetHeader>
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      />
+                      {logo.src ? (
+                        <Image
+                          src={logo.src}
+                          className="max-h-8 dark:invert"
+                          alt={logo.alt}
+                          width={32}
+                          height={32}
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                          <Tv className="w-4 h-4 text-white" />
+                        </div>
+                      )}
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -239,7 +289,7 @@ const renderMenuItem = (item: MenuItem) => {
     return (
       <NavigationMenuItem key={item.title}>
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-        <NavigationMenuContent className="bg-popover text-popover-foreground">
+        <NavigationMenuContent className="bg-popover text-popover-foreground max-h-140 overflow-y-auto">
           {item.items.map((subItem) => (
             <NavigationMenuLink asChild key={subItem.title} className="w-80">
               <SubMenuLink item={subItem} />
