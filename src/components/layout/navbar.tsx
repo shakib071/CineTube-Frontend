@@ -67,6 +67,16 @@ interface Navbar1Props {
       url: string;
       authrequired?: boolean;
     };
+    profile: {
+      title: string;
+      url: string;
+      authrequired?: boolean;
+    };
+    logout: {
+      title: string;
+      url: string;
+      authrequired?: boolean;
+    };
   };
 }
 
