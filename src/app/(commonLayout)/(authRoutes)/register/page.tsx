@@ -1,7 +1,18 @@
-import React from 'react'
+import RegisterForm from "@/components/modules/auth/RegisterForm";
 
-export default function Page() {
-  return (
-    <div> this is register page </div>
-  )
+interface RegisterPageProps {
+  searchParams: Promise<{ redirect?: string }>;
 }
+
+const RegisterPage = async ({ searchParams }: RegisterPageProps) => {
+  const params = await searchParams;
+  const redirectPath = params.redirect;
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <RegisterForm redirectPath={redirectPath} />
+    </div>
+  );
+};
+
+export default RegisterPage;
