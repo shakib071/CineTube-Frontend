@@ -1,7 +1,18 @@
-import React from 'react'
+import LoginForm from "@/components/modules/auth/LoginForm";
 
-export default function Page() {
-  return (
-    <div>this is login page</div>
-  )
+interface LoginPageProps {
+  searchParams: Promise<{ redirect?: string }>;
 }
+
+const LoginPage = async ({ searchParams }: LoginPageProps) => {
+  const params = await searchParams;
+  const redirectPath = params.redirect;
+
+  return (
+    <div className="min-h-screen flex items-center justify-center  px-4">
+      <LoginForm redirectPath={redirectPath} />
+    </div>
+  );
+};
+
+export default LoginPage;
