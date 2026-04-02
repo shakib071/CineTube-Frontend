@@ -36,6 +36,10 @@ import {
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "./modeToggle";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getUserInfo } from "@/services/auth.service";
+import { IUser } from "@/types/user.types";
+import { get } from "http";
 
 interface MenuItem {
   title: string;
@@ -190,9 +194,19 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(()=> {
+    const getUser = async () => {
+      const user = await getUserInfo();
+      setUser(user);
+    }
+    getUser();
+  },[])
+
+  console.log(user);
 
   return (
-    <section className={cn("py-4 shadow-md mb-4", className)}>
+    <section className={cn("py-4 shadow-md", className)}>
       <div className="container mx-auto ">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
@@ -223,12 +237,28 @@ const Navbar = ({
           <div className="flex gap-2">
           
             <ModeToggle />
-            <Button asChild variant="outline" size="sm">
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size="sm">
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
+            {
+              !user ? (
+                <>
+                  <Button asChild variant="outline" size="sm">
+                    <a href={auth.login.url}>{auth.login.title}</a>
+                  </Button>
+                  <Button asChild size="sm">
+                    <a href={auth.signup.url}>{auth.signup.title}</a>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="outline" size="sm">
+                    <a href={auth.profile.url}>{auth.profile.title}</a>
+                  </Button>
+                  <Button asChild size="sm">
+                    <a href={auth.logout.url}>{auth.logout.title}</a>
+                  </Button>
+                </>
+              )
+            } 
+            
           </div>
         </nav>
 
