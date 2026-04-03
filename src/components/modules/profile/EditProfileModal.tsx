@@ -7,7 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { IUser } from "@/types/user.types";
 import { toast } from "sonner";
-import { X, Upload } from "lucide-react";
+import { X, Upload, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { updateProfileAction } from "@/app/(commonLayout)/profile/_action";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -60,45 +62,92 @@ export function EditProfileModal({ isOpen, onClose, userData }: EditProfileModal
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    if (!formData.name.trim()) {
-      toast.error("Name is required");
+  //   if (!formData.name.trim()) {
+  //     toast.error("Name is required");
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+  //   try {
+  //     const submitData = new FormData();
+  //     submitData.append("name", formData.name);
+  //     if (formData.image) {
+  //       submitData.append("image", formData.image);
+  //     }
+
+  //     // TODO: Add your API call here to update the user profile
+  //     // Example:
+  //     // const response = await httpClient.put(`/users/${userData.id}`, submitData, {
+  //     //   headers: {
+  //     //     "Content-Type": "multipart/form-data",
+  //     //   },
+  //     // });
+
+  //     console.log("Updating profile with:", {
+  //       name: formData.name,
+  //       hasImage: !!formData.image,
+  //       fileName: formData.image?.name,
+  //     });
+
+  //     toast.success("Profile updated successfully!");
+  //     onClose();
+  //   } catch (error) {
+  //     toast.error("Failed to update profile");
+  //     console.error(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!formData.name.trim()) {
+    toast.error("Name is required");
+    return;
+  }
+
+  // check at least something changed
+  if (formData.name === userData.name && !formData.image) {
+    toast.error("No changes to save");
+    return;
+  }
+
+  setIsLoading(true);
+  try {
+    const submitData = new FormData();
+
+    // only append name if it changed
+    if (formData.name !== userData.name) {
+      submitData.append("name", formData.name);
+    }
+
+    // only append image if selected
+    if (formData.image) {
+      submitData.append("image", formData.image);
+    }
+
+    const result = await updateProfileAction(submitData);
+
+    if (!result.success) {
+      toast.error(result.message);
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const submitData = new FormData();
-      submitData.append("name", formData.name);
-      if (formData.image) {
-        submitData.append("image", formData.image);
-      }
-
-      // TODO: Add your API call here to update the user profile
-      // Example:
-      // const response = await httpClient.put(`/users/${userData.id}`, submitData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
-
-      console.log("Updating profile with:", {
-        name: formData.name,
-        hasImage: !!formData.image,
-        fileName: formData.image?.name,
-      });
-
-      toast.success("Profile updated successfully!");
-      onClose();
-    } catch (error) {
-      toast.error("Failed to update profile");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    toast.success("Profile updated successfully!");
+    router.refresh(); // re-fetch the profile page
+    onClose();
+  } catch (error) {
+    toast.error("Failed to update profile");
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   if (!isOpen) return null;
 
@@ -108,7 +157,7 @@ export function EditProfileModal({ isOpen, onClose, userData }: EditProfileModal
       onClick={onClose}
     >
       <Card
-        className="w-full max-w-md bg-card border-border text-foreground"
+        className="w-full max-w-md bg-card border-border text-foreground max-h-[50vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -196,7 +245,14 @@ export function EditProfileModal({ isOpen, onClose, userData }: EditProfileModal
                 disabled={isLoading}
                 className="flex-1"
               >
-                {isLoading ? "Saving..." : "Save Changes"}
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </div>
           </form>

@@ -1,6 +1,5 @@
 import { getUserInfo } from "@/services/auth.service";
-import { IAdmin, IUser, Role, UserStatus } from "@/types/user.types";
-import { Button } from "@/components/ui/button";
+import { IUser, Role, UserStatus } from "@/types/user.types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
