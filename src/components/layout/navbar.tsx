@@ -108,70 +108,70 @@ const Navbar = ({
 
 
     {
-      title: "Browse",
+      title: "Browse Genres",
       url: "#",
       items: [
         {
           title: "Action",
           description: "High-octane thrills, explosive sequences and epic battles",
           icon: <Flame className="size-5 shrink-0 text-orange-500" />,
-          url: "/genre/action",
+          url: "/browse-genre/:action",
         },
         {
           title: "Drama",
           description: "Powerful stories driven by emotion and human connection",
           icon: <Theater className="size-5 shrink-0 text-purple-500" />,
-          url: "/genre/drama",
+          url: "/browse-genre/:drama",
         },
         {
           title: "Comedy",
           description: "Laugh out loud moments and feel-good entertainment",
           icon: <Laugh className="size-5 shrink-0 text-yellow-400" />,
-          url: "/genre/comedy",
+          url: "/browse-genre/:comedy",
         },
         {
           title: "Thriller",
           description: "Edge of your seat suspense that keeps you guessing",
           icon: <Eye className="size-5 shrink-0 text-red-500" />,
-          url: "/genre/thriller",
+          url: "/browse-genre/:thriller",
         },
         {
           title: "Sci-Fi",
           description: "Explore the future, space and technology gone beyond limits",
           icon: <Rocket className="size-5 shrink-0 text-blue-400" />,
-          url: "/genre/sci-fi",
+          url: "/browse-genre/:sci-fi",
         },
         {
           title: "Horror",
           description: "Dark, terrifying tales that will haunt your nightmares",
           icon: <Skull className="size-5 shrink-0 text-gray-400" />,
-          url: "/genre/horror",
+          url: "/browse-genre/:horror",
         },
         {
           title: "Romance",
           description: "Heartwarming love stories that make you feel everything",
           icon: <Heart className="size-5 shrink-0 text-pink-500" />,
-          url: "/genre/romance",
+          url: "/browse-genre/:romance",
         },
         {
           title: "Adventure",
           description: "Epic journeys, daring quests and uncharted territories",
           icon: <Sword className="size-5 shrink-0 text-amber-500" />,
-          url: "/genre/adventure",
+          url: "/browse-genre/:adventure",
         },
       
         {
           title: "Animation",
           description: "Imaginative worlds brought to life frame by frame",
           icon: <Baby className="size-5 shrink-0 text-green-400" />,
-          url: "/genre/animation",
+          url: "/browse-genre/:animation",
         },
        
         {
           title: "Others",
           description: "Discover hidden gems that don't fit the usual categories",
           icon: <Clapperboard className="size-5 shrink-0 text-rose-400" />,
-          url: "/genre/others",
+          url: "/browse-genre/:others",
         },
       ],
     },
