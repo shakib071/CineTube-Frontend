@@ -201,7 +201,7 @@ export default function AdminMediaPage() {
                     {/* Media info */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                        <div className="w-12 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
                           {item.thumbnailUrl ? (
                             <Image
                               src={item.thumbnailUrl}

@@ -26,29 +26,14 @@ GET /admin/statsAdmin dashboard stats cards
 
 Phase 1 — Media Pages (matches Media CRUD)
 
-1. All Movies/Series page
-   □ Fetch paginated media from API
-   □ Movie card component
-   □ Search bar
-   □ Filter by genre, type, platform, pricing
-   □ Sort by recent, top rated, most liked
-   □ Pagination component
+
 
 2. Movie Details page
-   □ Fetch single media
-   □ Movie info (title, synopsis, cast, director)
-   □ YouTube embed or Cloudinary video player
    □ Paid content gate (blur if premium + not subscribed)
    □ Rating display (averageRating)
    □ Add to watchlist button
    □ Reviews section
 
-3. Admin — Media Management
-   □ Admin media table (all movies/series)
-   □ Create media form (title, synopsis, genre, videoUrl, thumbnail upload)
-   □ Edit media modal
-   □ Delete media confirmation dialog
-   □ Toggle featured/published
 
 Phase 2 — User Management (matches Admin user routes)
 
@@ -66,6 +51,7 @@ Phase 3 — Reviews (matches Review routes)
    □ Reviews list with pagination
    □ Like button on each review
    □ Pending/approved badge
+   >also add in admin dashboard averageRating 
 
 6. Comments section
    □ Add comment form
