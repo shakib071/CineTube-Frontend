@@ -20,8 +20,9 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import MediaCard from "./MediaCard";
-import { getMediaAction, MediaQueryParams } from "@/app/(commonLayout)/movies/_action";
+
 import { IMedia } from "@/types/media.types";
+import { getMediaAction, MediaQueryParams } from "@/app/(commonLayout)/movies/_action";
 
 const GENRES = [
   "Action", "Drama", "Comedy", "Thriller", "Sci-Fi",
@@ -76,7 +77,12 @@ export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRa
   }, [search]);
 
   // Reset page on filter change
-  useEffect(() => { setPage(1); }, [debouncedSearch, genre, platform, pricing, sort]);
+  useEffect(() => { 
+    
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPage(1); 
+
+  }, [debouncedSearch, genre, platform, pricing, sort]);
 
   const fetchMedia = useCallback(() => {
     const [sortBy, sortOrder] = sort.split("_") as [string, "asc" | "desc"];
@@ -120,71 +126,7 @@ export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRa
     setGenre("ALL");
   };
 
-  const FilterPanel = () => (
-    <div className="flex flex-col gap-5">
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Genre</p>
-        <div className="flex flex-wrap gap-1.5">
-          {["ALL", ...GENRES].map((g) => (
-            <button
-              key={g}
-              onClick={() => setGenre(g)}
-              className={`text-xs px-3 py-1 rounded-full border transition-colors ${
-                genre === g
-                  ? "bg-red-600 text-white border-red-600"
-                  : "border-border text-muted-foreground hover:border-red-500/50 hover:text-foreground"
-              }`}
-            >
-              {g === "ALL" ? "All Genres" : g}
-            </button>
-          ))}
-        </div>
-      </div>
 
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Platform</p>
-        <Select value={platform} onValueChange={setPlatform}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All platforms" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">All platforms</SelectItem>
-            {PLATFORMS.map((p) => (
-              <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Pricing</p>
-        <div className="flex gap-2">
-          {["ALL", "FREE", "PREMIUM"].map((p) => (
-            <button
-              key={p}
-              onClick={() => setPricing(p)}
-              className={`flex-1 text-xs py-1.5 rounded-lg border transition-colors ${
-                pricing === p
-                  ? "bg-red-600 text-white border-red-600"
-                  : "border-border text-muted-foreground hover:border-red-500/50"
-              }`}
-            >
-              {p === "ALL" ? "All" : p === "FREE" ? "Free" : "Premium"}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => { setGenre("ALL"); setPlatform("ALL"); setPricing("ALL"); }}
-        className="w-full"
-      >
-        Clear filters
-      </Button>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -245,7 +187,71 @@ export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRa
                   <SheetHeader className="mb-5">
                     <SheetTitle>Filters</SheetTitle>
                   </SheetHeader>
-                  <FilterPanel />
+                  <>
+                    <div className="flex flex-col gap-5">
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Genre</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["ALL", ...GENRES].map((g) => (
+                          <button
+                            key={g}
+                            onClick={() => setGenre(g)}
+                            className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                              genre === g
+                                ? "bg-red-600 text-white border-red-600"
+                                : "border-border text-muted-foreground hover:border-red-500/50 hover:text-foreground"
+                            }`}
+                          >
+                            {g === "ALL" ? "All Genres" : g}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Platform</p>
+                      <Select value={platform} onValueChange={setPlatform}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="All platforms" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="ALL">All platforms</SelectItem>
+                          {PLATFORMS.map((p) => (
+                            <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Pricing</p>
+                      <div className="flex gap-2">
+                        {["ALL", "FREE", "PREMIUM"].map((p) => (
+                          <button
+                            key={p}
+                            onClick={() => setPricing(p)}
+                            className={`flex-1 text-xs py-1.5 rounded-lg border transition-colors ${
+                              pricing === p
+                                ? "bg-red-600 text-white border-red-600"
+                                : "border-border text-muted-foreground hover:border-red-500/50"
+                            }`}
+                          >
+                            {p === "ALL" ? "All" : p === "FREE" ? "Free" : "Premium"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => { setGenre("ALL"); setPlatform("ALL"); setPricing("ALL"); }}
+                      className="w-full"
+                    >
+                      Clear filters
+                    </Button>
+                  </div>
+                  </>
                   {/* Sort in mobile sheet */}
                   <div className="mt-6">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Sort by</p>
@@ -295,7 +301,7 @@ export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRa
             ) : (
               <>
                 <span className="font-semibold text-foreground">{meta.total}</span> results
-                {debouncedSearch && <> for <span className="font-semibold text-foreground">"{debouncedSearch}"</span></>}
+                {debouncedSearch && <> for <span className="font-semibold text-foreground">&quot;{debouncedSearch}&quot;</span></>}
               </>
             )}
           </p>
@@ -305,7 +311,7 @@ export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRa
         {isPending ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {Array.from({ length: 18 }).map((_, i) => (
-              <div key={i} className="rounded-2xl bg-muted animate-pulse aspect-[2/3]" />
+              <div key={i} className="rounded-2xl bg-muted animate-pulse aspect-2/3" />
             ))}
           </div>
         ) : media.length === 0 ? (
