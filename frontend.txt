@@ -26,8 +26,6 @@ GET /admin/statsAdmin dashboard stats cards
 
 Phase 1 — Media Pages (matches Media CRUD)
 
-
-
 2. Movie Details page
    □ Paid content gate (blur if premium + not subscribed)
    □ Rating display (averageRating)
@@ -35,14 +33,6 @@ Phase 1 — Media Pages (matches Media CRUD)
    □ Reviews section
 
 
-Phase 2 — User Management (matches Admin user routes)
-
-4. Admin — Users Table
-   □ Fetch all users paginated
-   □ Search by name/email
-   □ Block/unblock user toggle
-   □ Delete user confirmation
-   □ Role badge display
 
 Phase 3 — Reviews (matches Review routes)
 
