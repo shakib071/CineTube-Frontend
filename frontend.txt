@@ -1,0 +1,133 @@
+All Movies page
+      ↓
+Movie Details page
+      ↓
+Admin Media Management
+      ↓
+User Dashboard (watchlist, purchases)
+      ↓
+Admin Dashboard (users, reviews)
+      ↓
+Payment pages
+      ↓
+Home page (last — needs real data)
+
+
+Quick mapping:
+BackendFrontend
+GET /mediaAll Movies page
+GET /media/:id Movie Details page
+POST /mediaAdmin create media form
+GET /admin/usersAdmin users table
+POST /reviewsReview form on details page
+POST /watchlist/:idWatchlist button
+POST /subscriptionPricing page checkout
+GET /admin/statsAdmin dashboard stats cards
+
+Phase 1 — Media Pages (matches Media CRUD)
+
+1. All Movies/Series page
+   □ Fetch paginated media from API
+   □ Movie card component
+   □ Search bar
+   □ Filter by genre, type, platform, pricing
+   □ Sort by recent, top rated, most liked
+   □ Pagination component
+
+2. Movie Details page
+   □ Fetch single media
+   □ Movie info (title, synopsis, cast, director)
+   □ YouTube embed or Cloudinary video player
+   □ Paid content gate (blur if premium + not subscribed)
+   □ Rating display (averageRating)
+   □ Add to watchlist button
+   □ Reviews section
+
+3. Admin — Media Management
+   □ Admin media table (all movies/series)
+   □ Create media form (title, synopsis, genre, videoUrl, thumbnail upload)
+   □ Edit media modal
+   □ Delete media confirmation dialog
+   □ Toggle featured/published
+
+Phase 2 — User Management (matches Admin user routes)
+
+4. Admin — Users Table
+   □ Fetch all users paginated
+   □ Search by name/email
+   □ Block/unblock user toggle
+   □ Delete user confirmation
+   □ Role badge display
+
+Phase 3 — Reviews (matches Review routes)
+
+5. Review system on Movie Details page
+   □ Write review form (rating 1-10 + text + tags + spoiler toggle)
+   □ Reviews list with pagination
+   □ Like button on each review
+   □ Pending/approved badge
+
+6. Comments section
+   □ Add comment form
+   □ Nested replies
+   □ Delete own comment
+
+7. Admin — Review Moderation
+   □ Pending reviews table
+   □ Approve/Reject buttons
+   □ Delete inappropriate review
+
+Phase 4 — Watchlist (matches Watchlist routes)
+
+8. Watchlist page (user dashboard)
+   □ Fetch user watchlist
+   □ Display as grid of movie cards
+   □ Remove from watchlist button
+   □ Empty state if no items
+
+Phase 5 — Payment (matches Payment routes)
+
+9. Subscription Plans page
+   □ Free / Monthly / Yearly pricing cards
+   □ Stripe checkout button
+   □ SSLCommerz checkout button
+   □ Current plan display
+
+10. Payment Success page
+    □ Confirm subscription activated
+    □ Redirect to dashboard
+
+11. Purchase History page (user dashboard)
+    □ List of bought/rented movies
+    □ Expiry date for rentals
+    □ Access button to watch
+    
+Phase 6 — Dashboard pages
+
+12. User Dashboard
+    □ Sidebar navigation
+    □ Profile page (already done ✅)
+    □ Watchlist page
+    □ Purchase history
+    □ Subscription status card
+    □ Change password
+
+13. Admin Dashboard
+    □ Stats overview (total users, media, revenue)
+    □ Media management table
+    □ Users management table
+    □ Reviews moderation table
+    □ Newsletter subscribers list
+    □ Payment analytics chart
+
+Phase 7 — Home page
+
+14. Home page sections
+    □ Hero banner (featured movie)
+    □ Top rated this week
+    □ Newly added
+    □ Editor's picks (isFeatured)
+    □ Pricing cards
+    □ Newsletter signup
+    □ Footer
+

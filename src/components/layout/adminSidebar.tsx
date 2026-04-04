@@ -17,18 +17,18 @@ import { Button } from "@/components/ui/button";
 
 const sidebarItems = [
   {
-    title: "Dashboard",
+    title: "Home",
     href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Add Movie",
-    href: "/admin/dashboard/add-movie",
+    title: "Add Media",
+    href: "/admin/dashboard/add-media",
     icon: Plus,
   },
   {
-    title: "Movies",
-    href: "/admin/dashboard/movies",
+    title: "Media Library",
+    href: "/admin/dashboard/media",
     icon: Film,
   },
   {
@@ -50,7 +50,7 @@ export function AdminSidebar() {
   return (
     <div
       className={cn(
-        "flex flex-col h-screen bg-background border-r border-border transition-all duration-300",
+        " flex flex-col h-screen  border-r border-border transition-all duration-300",
         collapsed ? "w-16" : "w-64"
       )}
     >
