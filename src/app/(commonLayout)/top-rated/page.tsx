@@ -1,7 +1,17 @@
-import React from 'react'
+import MediaGrid from "@/components/modules/media/MediaGrid";
 
-export default function page() {
+export const metadata = {
+  title: "Top Rated — CineTube",
+  description: "The highest-rated movies and series on CineTube",
+};
+
+export default function TopRatedPage() {
   return (
-    <div> Top Rated </div>
-  )
+    <MediaGrid
+      title="Top Rated"
+      subtitle="The highest-rated titles across all genres"
+      defaultSort="averageRating_desc"
+      showRank
+    />
+  );
 }

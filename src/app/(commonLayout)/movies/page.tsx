@@ -1,7 +1,17 @@
-import React from 'react'
+import MediaGrid from "@/components/modules/media/MediaGrid";
 
-export default function page() {
+export const metadata = {
+  title: "Movies — CineTube",
+  description: "Browse all movies on CineTube",
+};
+
+export default function MoviesPage() {
   return (
-    <div>Movies</div>
-  )
+    <MediaGrid
+      type="MOVIE"
+      title="Movies"
+      subtitle="Browse our full collection of films"
+      defaultSort="createdAt_desc"
+    />
+  );
 }
