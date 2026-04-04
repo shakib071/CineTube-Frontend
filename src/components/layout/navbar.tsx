@@ -39,7 +39,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "@/services/auth.service";
 import { IUser } from "@/types/user.types";
-import { get } from "http";
+
 
 interface MenuItem {
   title: string;
@@ -94,6 +94,10 @@ const Navbar = ({
   menu = [
     { title: "Home", url: "/" },
     {
+      title:"All-media",
+      url: "/all-media",
+    },
+    {
       title: "Movies",
       url: "/movies",
     },
@@ -109,69 +113,69 @@ const Navbar = ({
 
     {
       title: "Browse Genres",
-      url: "#",
+      url: "/browse-genre",
       items: [
         {
           title: "Action",
           description: "High-octane thrills, explosive sequences and epic battles",
           icon: <Flame className="size-5 shrink-0 text-orange-500" />,
-          url: "/browse-genre/:action",
+          url: "/browse-genre/action",
         },
         {
           title: "Drama",
           description: "Powerful stories driven by emotion and human connection",
           icon: <Theater className="size-5 shrink-0 text-purple-500" />,
-          url: "/browse-genre/:drama",
+          url: "/browse-genre/drama",
         },
         {
           title: "Comedy",
           description: "Laugh out loud moments and feel-good entertainment",
           icon: <Laugh className="size-5 shrink-0 text-yellow-400" />,
-          url: "/browse-genre/:comedy",
+          url: "/browse-genre/comedy",
         },
         {
           title: "Thriller",
           description: "Edge of your seat suspense that keeps you guessing",
           icon: <Eye className="size-5 shrink-0 text-red-500" />,
-          url: "/browse-genre/:thriller",
+          url: "/browse-genre/thriller",
         },
         {
           title: "Sci-Fi",
           description: "Explore the future, space and technology gone beyond limits",
           icon: <Rocket className="size-5 shrink-0 text-blue-400" />,
-          url: "/browse-genre/:sci-fi",
+          url: "/browse-genre/sci-fi",
         },
         {
           title: "Horror",
           description: "Dark, terrifying tales that will haunt your nightmares",
           icon: <Skull className="size-5 shrink-0 text-gray-400" />,
-          url: "/browse-genre/:horror",
+          url: "/browse-genre/horror",
         },
         {
           title: "Romance",
           description: "Heartwarming love stories that make you feel everything",
           icon: <Heart className="size-5 shrink-0 text-pink-500" />,
-          url: "/browse-genre/:romance",
+          url: "/browse-genre/romance",
         },
         {
           title: "Adventure",
           description: "Epic journeys, daring quests and uncharted territories",
           icon: <Sword className="size-5 shrink-0 text-amber-500" />,
-          url: "/browse-genre/:adventure",
+          url: "/browse-genre/adventure",
         },
       
         {
           title: "Animation",
           description: "Imaginative worlds brought to life frame by frame",
           icon: <Baby className="size-5 shrink-0 text-green-400" />,
-          url: "/browse-genre/:animation",
+          url: "/browse-genre/animation",
         },
        
         {
           title: "Others",
           description: "Discover hidden gems that don't fit the usual categories",
           icon: <Clapperboard className="size-5 shrink-0 text-rose-400" />,
-          url: "/browse-genre/:others",
+          url: "/browse-genre/others",
         },
       ],
     },
@@ -195,15 +199,109 @@ const Navbar = ({
   className,
 }: Navbar1Props) => {
   const [user, setUser] = useState<IUser | null>(null);
-  useEffect(()=> {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
     const getUser = async () => {
       const user = await getUserInfo();
       setUser(user);
     }
     getUser();
-  },[])
+  }, [])
 
   console.log(user);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <section className={cn("py-4 shadow-md", className)}>
+        <div className="container mx-auto">
+          {/* Desktop Menu - Loading state */}
+          <nav className="hidden items-center justify-between lg:flex">
+            <div className="flex items-center gap-6">
+              {/* Logo */}
+              <Link href={logo.url} className="flex items-center gap-2 group">
+                <div className="relative">
+                  <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
+                    <Tv className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
+                </div>
+                <span
+                  className="text-xl font-black tracking-tight"
+                  style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
+                >
+                  Cine<span className="text-red-500">Tube</span>
+                </span>
+              </Link>
+              <div className="flex items-center">
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    {menu.map((item) => renderMenuItem(item))}
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <ModeToggle />
+              {/* Loading state - show login/signup buttons */}
+              <Button asChild variant="outline" size="sm">
+                <a href={auth.login.url}>{auth.login.title}</a>
+              </Button>
+              <Button asChild size="sm">
+                <a href={auth.signup.url}>{auth.signup.title}</a>
+              </Button>
+            </div>
+          </nav>
+
+          {/* Mobile Menu - Loading state */}
+          <div className="block lg:hidden">
+            <div className="flex items-center justify-between">
+              <Link href={logo.url} className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                  <Tv className="w-4 h-4 text-white" />
+                </div>
+              </Link>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <Link href={logo.url} className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                          <Tv className="w-4 h-4 text-white" />
+                        </div>
+                      </Link>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-4 mt-4">
+                    {menu.map((item) => (
+                      <Link key={item.url} href={item.url} className="text-sm font-medium">
+                        {item.title}
+                      </Link>
+                    ))}
+                    <div className="flex flex-col gap-2 mt-4">
+                      <Button asChild variant="outline" size="sm">
+                        <a href={auth.login.url}>{auth.login.title}</a>
+                      </Button>
+                      <Button asChild size="sm">
+                        <a href={auth.signup.url}>{auth.signup.title}</a>
+                      </Button>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={cn("py-4 shadow-md", className)}>

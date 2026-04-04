@@ -54,16 +54,18 @@ interface Props {
   showRank?: boolean;
   title: string;
   subtitle?: string;
+  defaultGenre?: string;
+  
 }
 
-export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRank, title, subtitle }: Props) {
+export default function MediaGrid({ type, defaultSort = "createdAt_desc", showRank, title, subtitle, defaultGenre }: Props) {
   const [isPending, startTransition] = useTransition();
   const [media, setMedia] = useState<IMedia[]>([]);
   const [meta, setMeta] = useState({ page: 1, totalPages: 1, total: 0 });
 
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [genre, setGenre] = useState("ALL");
+  const [genre, setGenre] = useState(defaultGenre ?? "ALL");
   const [platform, setPlatform] = useState("ALL");
   const [pricing, setPricing] = useState("ALL");
   const [sort, setSort] = useState(defaultSort);
