@@ -52,11 +52,22 @@ export default function ReviewSection({
   const [tags, setTags] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  // Like state — track locally for instant UI
-  const [likedReviews, setLikedReviews] = useState<Set<string>>(new Set());
-  const [likeCounts, setLikeCounts] = useState<Record<string, number>>(
-    Object.fromEntries(initialReviews.map((r) => [r.id, r.likes?.length ?? 0]))
-  );
+  // Like state — initialised from backend so likes persist across reloads
+  const buildLikeState = (reviewList: IReview[]) => {
+    const liked = new Set<string>(
+      reviewList
+        .filter((r) => r.likes?.some((l) => l.userId === currentUser?.id))
+        .map((r) => r.id)
+    );
+    const counts = Object.fromEntries(
+      reviewList.map((r) => [r.id, r.likes?.length ?? 0])
+    );
+    return { liked, counts };
+  };
+
+  const initial = buildLikeState(initialReviews);
+  const [likedReviews, setLikedReviews] = useState<Set<string>>(initial.liked);
+  const [likeCounts, setLikeCounts] = useState<Record<string, number>>(initial.counts);
 
   const fetchPage = (p: number) => {
     startTransition(async () => {
@@ -65,6 +76,10 @@ export default function ReviewSection({
         setReviews(res.data);
         setMeta(res.meta);
         setPage(p);
+        // Re-sync like state so heart colours stay correct on page change
+        const { liked, counts } = buildLikeState(res.data);
+        setLikedReviews(liked);
+        setLikeCounts(counts);
       }
     });
   };

@@ -124,7 +124,17 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
           setServerError(result.message || "Login failed");
         }
       } catch (error: any) {
-        setServerError(`Login failed: ${error.message}`);
+        // Re-throw Next.js redirect — it's not an error, it's a successful login
+        if (
+          error &&
+          typeof error === "object" &&
+          "digest" in error &&
+          typeof error.digest === "string" &&
+          error.digest.startsWith("NEXT_REDIRECT")
+        ) {
+          throw error;
+        }
+        setServerError(error?.message || "Something went wrong. Please try again.");
       }
     },
   });

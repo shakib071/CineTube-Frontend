@@ -20,11 +20,10 @@ export const getReviewsByMediaAction = async (
   try {
     const qs = new URLSearchParams({
       mediaId,
-      isPublished: "true",
       page: String(page),
       limit: String(limit),
     });
-    const res = await fetch(`${API}/reviews?${qs}`, {
+    const res = await fetch(`${API}/reviews/public?${qs}`, {
       headers: { Cookie: await getCookieHeader() },
       cache: "no-store",
     });
