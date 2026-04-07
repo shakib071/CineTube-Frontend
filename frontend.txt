@@ -28,38 +28,9 @@ Phase 1 — Media Pages (matches Media CRUD)
 
 2. Movie Details page
    □ Paid content gate (blur if premium + not subscribed)
-   □ Rating display (averageRating)
-   □ Add to watchlist button
-   □ Reviews section
 
 
 
-Phase 3 — Reviews (matches Review routes)
-
-5. Review system on Movie Details page
-   □ Write review form (rating 1-10 + text + tags + spoiler toggle)
-   □ Reviews list with pagination
-   □ Like button on each review
-   □ Pending/approved badge
-   >also add in admin dashboard averageRating 
-
-6. Comments section
-   □ Add comment form
-   □ Nested replies
-   □ Delete own comment
-
-7. Admin — Review Moderation
-   □ Pending reviews table
-   □ Approve/Reject buttons
-   □ Delete inappropriate review
-
-Phase 4 — Watchlist (matches Watchlist routes)
-
-8. Watchlist page (user dashboard)
-   □ Fetch user watchlist
-   □ Display as grid of movie cards
-   □ Remove from watchlist button
-   □ Empty state if no items
 
 Phase 5 — Payment (matches Payment routes)
 
@@ -77,7 +48,10 @@ Phase 5 — Payment (matches Payment routes)
     □ List of bought/rented movies
     □ Expiry date for rentals
     □ Access button to watch
-    
+
+
+
+
 Phase 6 — Dashboard pages
 
 12. User Dashboard
@@ -95,6 +69,10 @@ Phase 6 — Dashboard pages
     □ Reviews moderation table
     □ Newsletter subscribers list
     □ Payment analytics chart
+
+
+
+
 
 Phase 7 — Home page
 

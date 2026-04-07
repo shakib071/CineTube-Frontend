@@ -1,18 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
   Star, Crown, Film, Calendar, User, Users,
-  Tv, Play, ArrowLeft, MessageSquare, Heart, Clock, Tag,
+  Tv, Play, ArrowLeft, MessageSquare, Clock, Tag,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getMediaByIdAction } from "@/app/(commonLayout)/movies/_action";
-
 import { getUserInfo } from "@/services/auth.service";
 import { getReviewsByMediaAction } from "./_action";
+import { checkWatchlistAction } from "@/app/(commonLayout)/watchlist/_action";
 import ReviewSection from "@/components/modules/media/ReviewSection";
+import WatchlistButton from "@/components/modules/media/WatchlistButton";
 
 
 const PLATFORM_LABELS: Record<string, string> = {
@@ -38,6 +39,11 @@ export default async function MediaDetailPage({ params }: Props) {
   if (!mediaRes.success || !mediaRes.data) notFound();
 
   const media = mediaRes.data;
+
+  // Check watchlist status only if user is logged in
+  const watchlistRes = currentUser
+    ? await checkWatchlistAction(media.id)
+    : { isInWatchlist: false };
   const initialReviews = reviewsRes.success ? (reviewsRes.data ?? []) : [];
   const initialMeta = reviewsRes.success
     ? reviewsRes.meta ?? { page: 1, limit: 5, total: 0, totalPages: 1 }
@@ -60,9 +66,9 @@ export default async function MediaDetailPage({ params }: Props) {
       {/* Hero */}
       <div className="relative">
         {media.thumbnailUrl && (
-          <div className="absolute inset-0 h-[420px] overflow-hidden">
+          <div className="absolute inset-0 h-105 overflow-hidden">
             <Image src={media.thumbnailUrl} alt="" fill className="object-cover scale-110 blur-2xl opacity-20 dark:opacity-15 saturate-150" priority />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
+            <div className="absolute inset-0 bg-linear-to-b from-background/20 via-background/60 to-background" />
           </div>
         )}
 
@@ -75,8 +81,8 @@ export default async function MediaDetailPage({ params }: Props) {
 
           <div className="flex flex-col sm:flex-row gap-6 lg:gap-10">
             {/* Poster */}
-            <div className="flex-shrink-0 w-40 sm:w-48 lg:w-56 mx-auto sm:mx-0">
-              <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
+            <div className="shrink-0 w-40 sm:w-48 lg:w-56 mx-auto sm:mx-0">
+              <div className="relative aspect-2/3 rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
                 {media.thumbnailUrl ? (
                   <Image src={media.thumbnailUrl} alt={media.title} fill className="object-cover" priority />
                 ) : (
@@ -151,7 +157,11 @@ export default async function MediaDetailPage({ params }: Props) {
                     </Button>
                   </a>
                 )}
-                <Button variant="outline" className="gap-2"><Heart className="w-4 h-4" />Watchlist</Button>
+                <WatchlistButton
+                  mediaId={media.id}
+                  initialInWatchlist={watchlistRes.isInWatchlist}
+                  isLoggedIn={!!currentUser}
+                />
               </div>
             </div>
           </div>
@@ -193,7 +203,7 @@ export default async function MediaDetailPage({ params }: Props) {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {media.cast.map((actor, i) => (
                     <div key={i} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-muted/40 border border-border/30">
-                      <div className="w-7 h-7 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-7 h-7 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
                         <User className="w-3.5 h-3.5 text-red-500" />
                       </div>
                       <span className="text-sm text-foreground truncate">{actor}</span>
@@ -251,7 +261,7 @@ export default async function MediaDetailPage({ params }: Props) {
 function Row({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="text-muted-foreground mt-0.5 flex-shrink-0">{icon}</span>
+      <span className="text-muted-foreground mt-0.5 shrink-0">{icon}</span>
       <div className="flex flex-col min-w-0">
         <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{label}</span>
         <span className="text-foreground font-medium truncate">{value}</span>
