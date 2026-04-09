@@ -11,6 +11,7 @@ import {
   Plus,
   MessageSquare,
   Users,
+  Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,11 @@ const sidebarItems = [
     title: "Users",
     href: "/admin/dashboard/users",
     icon: Users,
+  },
+  { 
+    title: "Newsletter",
+    href: "/admin/dashboard/newsletter", 
+    icon: Mail 
   },
 ];
 

@@ -31,12 +31,8 @@ Phase 6 — Dashboard pages
 
 
 13. Admin Dashboard
-    □ Stats overview (total users, media, revenue)
-    □ Media management table
-    □ Users management table
-    □ Reviews moderation table
-    □ Newsletter subscribers list
-    □ Payment analytics chart
+    □ Newsletter subscribers list (pagination + search + filter)
+    □ Reviews moderation table some error for delete
 
 
 
