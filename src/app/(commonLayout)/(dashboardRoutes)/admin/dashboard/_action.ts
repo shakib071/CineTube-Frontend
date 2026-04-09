@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { IMeta } from "./newsletter/page";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -50,17 +51,45 @@ export const getAdminStatsAction = async (): Promise<
   }
 };
 
-export const getNewsletterSubscribersAction = async (): Promise<
-  { success: true; data: { subscribers: INewsletterSubscriber[]; total: number } } | { success: false; message: string }
+// export const getNewsletterSubscribersAction = async (): Promise<
+//   { success: true; data: { subscribers: INewsletterSubscriber[]; total: number } } | { success: false; message: string }
+// > => {
+//   try {
+//     const res = await fetch(`${API}/newsletter`, {
+//       headers: { Cookie: await getCookieHeader() },
+//       cache: "no-store",
+//     });
+//     const json = await res.json();
+//     if (!res.ok) return { success: false, message: json.message };
+//     return { success: true, data: json.data };
+//   } catch {
+//     return { success: false, message: "Failed to fetch subscribers" };
+//   }
+// };
+
+export const getNewsletterSubscribersAction = async (
+  params?: Record<string, string>
+): Promise<
+  | { success: true; data: { subscribers: INewsletterSubscriber[]; meta: IMeta; total: number } }
+  | { success: false; message: string }
 > => {
   try {
-    const res = await fetch(`${API}/newsletter`, {
+    const query = params ? "?" + new URLSearchParams(params).toString() : "";
+    const res = await fetch(`${API}/newsletter${query}`, {
       headers: { Cookie: await getCookieHeader() },
       cache: "no-store",
     });
     const json = await res.json();
     if (!res.ok) return { success: false, message: json.message };
-    return { success: true, data: json.data };
+
+    return {
+      success: true,
+      data: {
+        subscribers: json.data,
+        meta: json.meta,
+        total: json.meta?.total ?? 0,
+      },
+    };
   } catch {
     return { success: false, message: "Failed to fetch subscribers" };
   }

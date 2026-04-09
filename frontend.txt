@@ -29,25 +29,8 @@ GET /admin/statsAdmin dashboard stats cards
 
 Phase 6 — Dashboard pages
 
-
-13. Admin Dashboard
-    □ Newsletter subscribers list (pagination + search + filter)
     □ Reviews moderation table some error for delete
 
-
-
-
-
-Phase 7 — Home page
-
-14. Home page sections
-    □ Hero banner (featured movie)
-    □ Top rated this week
-    □ Newly added
-    □ Editor's picks (isFeatured)
-    □ Pricing cards
-    □ Newsletter signup
-    □ Footer
 
 
 15. password
