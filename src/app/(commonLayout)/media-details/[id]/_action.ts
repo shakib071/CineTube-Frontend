@@ -167,3 +167,20 @@ export const deleteReviewAdminAction = async (id: string) => {
     return { success: false, message: "Failed to delete review" };
   }
 };
+
+export const checkAccessAction = async (mediaId: string): Promise<boolean> => {
+  try {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.getAll().map((c) => `${c.name}=${c.value}`).join("; ");
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/purchase/access/${mediaId}`, {
+      headers: { Cookie: cookieHeader },
+      cache: "no-store",
+    });
+    if (!res.ok) return false;
+    const json = await res.json();
+    return json.data?.hasAccess === true;
+  } catch {
+    return false;
+  }
+};

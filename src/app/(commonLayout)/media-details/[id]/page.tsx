@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,11 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getMediaByIdAction } from "@/app/(commonLayout)/movies/_action";
 import { getUserInfo } from "@/services/auth.service";
-import { getReviewsByMediaAction } from "./_action";
+import { getReviewsByMediaAction, checkAccessAction } from "./_action";
 import { checkWatchlistAction } from "@/app/(commonLayout)/watchlist/_action";
 import ReviewSection from "@/components/modules/media/ReviewSection";
 import WatchlistButton from "@/components/modules/media/WatchlistButton";
-
+import StreamButton from "@/components/modules/media/StreamButton";
 
 const PLATFORM_LABELS: Record<string, string> = {
   NETFLIX: "Netflix", DISNEY_PLUS: "Disney+", YOUTUBE: "YouTube",
@@ -40,10 +39,12 @@ export default async function MediaDetailPage({ params }: Props) {
 
   const media = mediaRes.data;
 
-  // Check watchlist status only if user is logged in
-  const watchlistRes = currentUser
-    ? await checkWatchlistAction(media.id)
-    : { isInWatchlist: false };
+  // Check watchlist + access status (only if logged in)
+  const [watchlistRes, hasAccess] = await Promise.all([
+    currentUser ? checkWatchlistAction(media.id) : Promise.resolve({ isInWatchlist: false }),
+    currentUser ? checkAccessAction(media.id) : Promise.resolve(false),
+  ]);
+
   const initialReviews = reviewsRes.success ? (reviewsRes.data ?? []) : [];
   const initialMeta = reviewsRes.success
     ? reviewsRes.meta ?? { page: 1, limit: 5, total: 0, totalPages: 1 }
@@ -149,14 +150,24 @@ export default async function MediaDetailPage({ params }: Props) {
                 </div>
               )}
 
+              {/* ── Action buttons ── */}
               <div className="flex flex-wrap gap-3">
+                {/* Stream button */}
+                <StreamButton
+                  media={media}
+                  hasAccess={hasAccess}
+                  isLoggedIn={!!currentUser}
+                />
+
+                {/* Trailer button — only if there is a separate trailer URL */}
                 {trailerYtId && (
                   <a href={`https://www.youtube.com/watch?v=${trailerYtId}`} target="_blank" rel="noopener noreferrer">
-                    <Button className="gap-2 bg-red-600 hover:bg-red-700 text-white">
+                    <Button variant="outline" className="gap-2">
                       <Play className="w-4 h-4 fill-current" /> Watch Trailer
                     </Button>
                   </a>
                 )}
+
                 <WatchlistButton
                   mediaId={media.id}
                   initialInWatchlist={watchlistRes.isInWatchlist}
@@ -213,7 +224,6 @@ export default async function MediaDetailPage({ params }: Props) {
               </section>
             )}
 
-            {/* ── Review Section (client component) ── */}
             <ReviewSection
               mediaId={media.id}
               initialReviews={initialReviews}

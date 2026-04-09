@@ -34,14 +34,7 @@ Phase 1 — Media Pages (matches Media CRUD)
 
 Phase 5 — Payment (matches Payment routes)
 
-9. Subscription Plans page
-   □ Free / Monthly / Yearly pricing cards
-   □ Stripe checkout button
-   □ SSLCommerz checkout button
-   □ Current plan display
-
 10. Payment Success page
-    □ Confirm subscription activated
     □ Redirect to dashboard
 
 11. Purchase History page (user dashboard)
