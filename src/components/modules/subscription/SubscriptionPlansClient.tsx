@@ -143,7 +143,7 @@ export default function SubscriptionPlansClient({ currentSub }: Props) {
               <Card
                 key={plan.key}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border transition-all duration-300",
+                  "relative overflow-visible flex  flex-col rounded-2xl border transition-all duration-300",
                   plan.highlight
                     ? "border-red-500/60 shadow-[0_8px_32px_rgba(239,68,68,0.12)] scale-[1.02]"
                     : "border-border/50 hover:border-red-500/30 hover:shadow-[0_4px_20px_rgba(239,68,68,0.08)]"

@@ -78,6 +78,12 @@ export async function proxy(request: NextRequest) {
       );
     }
 
+       if (pathname === "/dashboard") {
+          return NextResponse.redirect(
+            new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+          );
+      }
+
     // Rule 2 — Public routes → allow
     if (routeOwner === null) {
       return NextResponse.next();
@@ -94,6 +100,8 @@ export async function proxy(request: NextRequest) {
     if (routeOwner === "COMMON") {
       return NextResponse.next();
     }
+
+ 
 
     // Rule 5 — Role based routes → redirect if wrong role
     if (routeOwner === "ADMIN" || routeOwner === "USER") {

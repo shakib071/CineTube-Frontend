@@ -57,7 +57,7 @@ export default function PaymentSuccessPage() {
             </Link>
           </Button>
           <Button asChild variant="outline" className="flex-1 rounded-xl font-semibold">
-            <Link href="/purchase-history">
+            <Link href="/user/dashboard/purchase-history">
               View receipt
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>

@@ -92,7 +92,7 @@ const Navbar = ({
     title: "Shadcnblocks.com",
   },
   menu = [
-    { title: "Home", url: "/" },
+    // { title: "Home", url: "/" },
     {
       title:"All-media",
       url: "/all-media",
@@ -179,10 +179,10 @@ const Navbar = ({
         },
       ],
     },
-    {
-      title: "Watchlist",
-      url: "/watchlist",
-    },
+    // {
+    //   title: "Watchlist",
+    //   url: "/watchlist",
+    // },
     {
       title: "Dashboard",
       url: "/dashboard",

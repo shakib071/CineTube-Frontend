@@ -59,7 +59,7 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div className="bg-gray-200 dark:bg-gradient-to-br min-h-screen  from-background via-background to-muted p-4">
+    <div className="bg-linear-to-br min-h-screen  from-background via-background to-muted p-4">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center mb-8">

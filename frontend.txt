@@ -24,36 +24,11 @@ POST /watchlist/:idWatchlist button
 POST /subscriptionPricing page checkout
 GET /admin/statsAdmin dashboard stats cards
 
-Phase 1 — Media Pages (matches Media CRUD)
-
-2. Movie Details page
-   □ Paid content gate (blur if premium + not subscribed)
-
-
-
-
-Phase 5 — Payment (matches Payment routes)
-
-10. Payment Success page
-    □ Redirect to dashboard
-
-11. Purchase History page (user dashboard)
-    □ List of bought/rented movies
-    □ Expiry date for rentals
-    □ Access button to watch
-
 
 
 
 Phase 6 — Dashboard pages
 
-12. User Dashboard
-    □ Sidebar navigation
-    □ Profile page (already done ✅)
-    □ Watchlist page
-    □ Purchase history
-    □ Subscription status card
-    □ Change password
 
 13. Admin Dashboard
     □ Stats overview (total users, media, revenue)
@@ -77,4 +52,10 @@ Phase 7 — Home page
     □ Pricing cards
     □ Newsletter signup
     □ Footer
+
+
+15. password
+   .. varify email using otp
+   .. change password in profile (forget password method) using otp and previos password 
+   .. 
 

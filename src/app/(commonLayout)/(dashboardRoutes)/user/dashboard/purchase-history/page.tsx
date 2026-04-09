@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { getUserInfo } from "@/services/auth.service";
-import { getPurchaseHistoryAction } from "../subscription/_action";
 import { IPurchase } from "@/types/payment.types";
 import { Badge } from "@/components/ui/badge";
 import { Receipt, Film, Clock, CheckCircle2, XCircle, Loader2, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getPurchaseHistoryAction } from "@/app/(commonLayout)/subscription/_action";
 
 export const metadata = {
   title: "Purchase History — CineTube",
@@ -192,6 +192,7 @@ export default async function PurchaseHistoryPage() {
                   </div>
 
                   {/* Status icon */}
+                  
                   <div className="shrink-0 self-center">
                     {p.status === "SUCCESS" ? (
                       <CheckCircle2 className="w-4 h-4 text-green-500" />

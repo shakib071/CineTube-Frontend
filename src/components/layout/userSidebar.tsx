@@ -7,58 +7,63 @@ import {
   ChevronLeft,
   ChevronRight,
   LayoutDashboard,
-  Film,
-  Plus,
-  MessageSquare,
-  Users,
+  Heart,
+  CreditCard,
+  User,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const sidebarItems = [
   {
     title: "Home",
-    href: "/admin/dashboard",
+    href: "/user/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Add Media",
-    href: "/admin/dashboard/add-media",
-    icon: Plus,
+    title: "Watchlist",
+    href: "/user/dashboard/watchlist",
+    icon: Heart,
+  },
+
+ 
+  {
+    title: "Profile",
+    href: "/user/dashboard/profile",
+    icon: User,
   },
   {
-    title: "Media Library",
-    href: "/admin/dashboard/media",
-    icon: Film,
+    title: "Purchases",
+    href: "/user/dashboard/purchase-history",
+    icon: CreditCard,
   },
   {
-    title: "Reviews",
-    href: "/admin/dashboard/reviews",
-    icon: MessageSquare,
-  },
-  {
-    title: "Users",
-    href: "/admin/dashboard/users",
-    icon: Users,
+    title: "Subscription",
+    href: "/user/dashboard/subscription",
+    icon: CreditCard,
   },
 ];
 
-export function AdminSidebar() {
+export function UserSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
   return (
     <div
       className={cn(
-        " flex flex-col h-screen  border-r border-border transition-all duration-300",
+        "flex flex-col h-screen border-r border-border transition-all duration-300",
         collapsed ? "w-16" : "w-64"
       )}
     >
-      {/* Header with toggle */}
+      {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         {!collapsed && (
-          <h2 className="text-lg font-semibold text-foreground">Admin Panel</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            User Panel
+          </h2>
         )}
+
         <Button
           variant="ghost"
           size="icon"
@@ -78,6 +83,7 @@ export function AdminSidebar() {
         <ul className="space-y-2">
           {sidebarItems.map((item) => {
             const isActive = pathname === item.href;
+
             return (
               <li key={item.href}>
                 <Link

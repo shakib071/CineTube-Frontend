@@ -22,7 +22,7 @@ export const adminProtectedRoutes: RouteConfig = {
 };
 
 export const userProtectedRoutes: RouteConfig = {
-  pattern: [/^\/dashboard/],
+  pattern: [/^\/user\/dashboard/],
   exact: [],
 };
 
@@ -50,7 +50,8 @@ export const getRouteOwner = (
 
 export const getDefaultDashboardRoute = (role: UserRole): string => {
   if (role === "ADMIN") return "/admin/dashboard";
-  return "/dashboard";
+  if (role === "USER") return "/user/dashboard";
+  return "/login";
 };
 
 export const isValidRedirectForRole = (
