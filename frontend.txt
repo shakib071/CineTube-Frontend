@@ -34,8 +34,7 @@ Phase 6 — Dashboard pages
 
 
 15. password
-   .. change password in profile (forget password method) using otp and previos password 
-   .. forgot pass in login .. change pass  after login
-   .. fab icon change
+   .. session is tracking using get user info .. make it for cookie ..
+   .. loading state ..
    
 

@@ -2,6 +2,7 @@
 "use server";
 
 import { httpClient } from "@/lib/axios/httpClients";
+import { deleteCookie } from "@/lib/cookieUtils";
 
 interface ApiError {
   success: false;
@@ -83,5 +84,34 @@ export const resetPasswordAction = async (
       success: false,
       message: error?.response?.data?.message || "Password reset failed",
     };
+  }
+};
+
+
+export const changePasswordAction = async (
+  currentPassword: string,
+  newPassword: string
+): Promise<{ success: boolean; message?: string }> => {
+  try {
+     await httpClient.post("/auth/change-password", { currentPassword, newPassword });
+    // const res = await fetch(`${API}/auth/change-password`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Cookie: await getCookieHeader(),
+    //   },
+    //   body: JSON.stringify({ currentPassword, newPassword }),
+    // });
+    
+    // if (!res.ok) return { success: false, message: data.message ?? "Failed to change password" };
+
+    // Clear all cookies — force re-login after password change
+    await deleteCookie("accessToken");
+    await deleteCookie("refreshToken");
+    await deleteCookie("better-auth.session_token");
+
+    return { success: true };
+  } catch {
+    return { success: false, message: "Something went wrong" };
   }
 };

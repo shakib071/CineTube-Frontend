@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar, Mail, Phone, User, Shield } from "lucide-react";
 import { EditProfileButton } from "@/components/modules/profile/EditProfileButton";
+import ProfileActions from "@/components/modules/profile/ProfileActions";
 
 export default async function ProfilePage() {
   const userData = await getUserInfo() as IUser | null;
@@ -59,7 +60,7 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div className="bg-linear-to-br min-h-screen  from-background via-background to-muted p-4">
+    <div className="bg-gray-200 dark:bg-gradient-to-br min-h-screen  from-background via-background to-muted p-4">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center mb-8">
@@ -94,7 +95,10 @@ export default async function ProfilePage() {
                   </div>
                 </div>
               </div>
-              <EditProfileButton userData={userData} />
+              <div className="flex items-center gap-2 flex-wrap">
+                <EditProfileButton userData={userData} />
+                <ProfileActions />
+              </div>
             </div>
           </CardHeader>
 
