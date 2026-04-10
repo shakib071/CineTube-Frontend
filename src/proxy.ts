@@ -10,6 +10,7 @@ import { isTokenExpiringSoon } from "./lib/tokenUtils";
 import { getNewTokensWithRefreshToken } from "./services/auth.service";
 
 
+
 async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
   try {
     const refresh = await getNewTokensWithRefreshToken(refreshToken);
@@ -43,6 +44,7 @@ export async function proxy(request: NextRequest) {
 
     let userRole: UserRole | null = null;
 
+
     if (decodedAccessToken) {
       userRole = decodedAccessToken.role as UserRole;
     }
@@ -70,6 +72,7 @@ export async function proxy(request: NextRequest) {
 
       return response;
     }
+   
 
     // Rule 1 — Logged in users should not access auth pages
     if (isAuth && isValidAccessToken) {
@@ -78,11 +81,11 @@ export async function proxy(request: NextRequest) {
       );
     }
 
-       if (pathname === "/dashboard") {
-          return NextResponse.redirect(
-            new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
-          );
-      }
+    if (pathname === "/dashboard") {
+        return NextResponse.redirect(
+          new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+        );
+    }
 
     // Rule 2 — Public routes → allow
     if (routeOwner === null) {
@@ -94,6 +97,12 @@ export async function proxy(request: NextRequest) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathWithQuery);
       return NextResponse.redirect(loginUrl);
+    }
+
+    if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false){
+      return NextResponse.redirect(
+        new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
+      )
     }
 
     // Rule 4 — Common protected routes → allow any logged in user

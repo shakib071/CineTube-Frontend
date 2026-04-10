@@ -34,7 +34,8 @@ Phase 6 — Dashboard pages
 
 
 15. password
-   .. varify email using otp
    .. change password in profile (forget password method) using otp and previos password 
-   .. 
+   .. forgot pass in login .. change pass  after login
+   .. fab icon change
+   
 

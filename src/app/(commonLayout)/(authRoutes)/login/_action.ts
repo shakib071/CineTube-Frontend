@@ -60,7 +60,11 @@ export const loginAction = async (
     );
 
     const { accessToken, refreshToken, token, user } = response.data;
-    const { role } = user;
+    const { role , emailVerified, email } = user;
+
+    if (!emailVerified) {
+      redirect(`/verify-email?email=${encodeURIComponent(email)}`);
+    }
 
     // step 3 — save tokens in httpOnly cookies
     await setTokenInCookies("accessToken", accessToken);
@@ -71,6 +75,7 @@ export const loginAction = async (
       24 * 60 * 60 // 1 day
     );
 
+    
     // step 4 — redirect based on role
     const targetPath =
       redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)

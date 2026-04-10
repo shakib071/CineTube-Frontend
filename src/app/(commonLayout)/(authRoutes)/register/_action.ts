@@ -62,12 +62,14 @@ export const registerAction = async (
     );
 
     const { accessToken, refreshToken, token, user } = response.data;
-    const { role } = user;
+    const { role , emailVerified, email } = user;
 
     await setTokenInCookies("accessToken", accessToken);
     await setTokenInCookies("refreshToken", refreshToken);
     await setTokenInCookies("better-auth.session_token", token, 24 * 60 * 60);
 
+    if(!emailVerified) return redirect("/verify-email?email=" + encodeURIComponent(email));
+    
     const targetPath =
       redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
         ? redirectPath
