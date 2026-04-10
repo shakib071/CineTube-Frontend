@@ -210,8 +210,6 @@ const Navbar = ({
     getUser();
   }, [])
 
-  
-
   console.log(user);
 
   // Prevent hydration mismatch by not rendering until mounted
