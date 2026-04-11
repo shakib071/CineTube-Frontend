@@ -1,7 +1,9 @@
 "use server";
 
+import { jwtUtils } from "@/lib/jwtUtils";
 import { setTokenInCookies } from "@/lib/tokenUtils";
 import { cookies } from "next/headers";
+// import { email } from "zod";
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -76,5 +78,28 @@ export async function getUserInfo() {
         console.error("Error fetching user info:", error);
         return null;
     }
+}
+
+
+
+
+export async function getUserFromToken() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
+  if (!token) return null;
+
+  const decoded = jwtUtils.decodedToken(token);
+  if (!decoded?.userId) return null;
+
+  return {
+    id: decoded.userId,
+    name: decoded.name,
+    email: decoded.email,
+    role: decoded.role,
+    status: decoded.status,
+    image: decoded.image ?? null,
+    emailVerified: decoded.emailVarified ?? false,
+    isDeleted: decoded.isDeleted ?? false,
+  };
 }
 

@@ -1,40 +1,10 @@
-All Movies page
-      ↓
-Movie Details page
-      ↓
-Admin Media Management
-      ↓
-User Dashboard (watchlist, purchases)
-      ↓
-Admin Dashboard (users, reviews)
-      ↓
-Payment pages
-      ↓
-Home page (last — needs real data)
-
-
-Quick mapping:
-BackendFrontend
-GET /mediaAll Movies page
-GET /media/:id Movie Details page
-POST /mediaAdmin create media form
-GET /admin/usersAdmin users table
-POST /reviewsReview form on details page
-POST /watchlist/:idWatchlist button
-POST /subscriptionPricing page checkout
-GET /admin/statsAdmin dashboard stats cards
-
-
-
-
-Phase 6 — Dashboard pages
-
-    □ Reviews moderation table some error for delete
-
 
 
 15. password
-   .. session is tracking using get user info .. make it for cookie ..
    .. loading state ..
-   
+   .. not found
+   .. readme .md 
+   .. deploy 
+   .. form eye button visibility problem (not compusury)
+   .. test 
 

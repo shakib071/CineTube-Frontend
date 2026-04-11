@@ -36,9 +36,10 @@ import {
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "./modeToggle";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getUserInfo } from "@/services/auth.service";
-import { IUser } from "@/types/user.types";
+// import { useEffect, useState } from "react";
+// import { getUserFromToken, getUserInfo } from "@/services/auth.service";
+// import { IUser } from "@/types/user.types";
+
 
 
 interface MenuItem {
@@ -51,6 +52,7 @@ interface MenuItem {
 
 
 interface Navbar1Props {
+  initialUser?: ITokenUser | null;
   className?: string;
   logo?: {
     url: string;
@@ -84,7 +86,19 @@ interface Navbar1Props {
   };
 }
 
+ interface ITokenUser {
+  id: string;
+  name: string;
+  email: string;
+  role: "USER" | "ADMIN";
+  status: "ACTIVE" | "BLOCKED" | "SUSPENDED" | "DELETED";
+  image?: string | null;
+  emailVerified: boolean;
+  isDeleted: boolean;
+}
+
 const Navbar = ({
+  initialUser = null,
   logo = {
     url: "/",
     src: "/",
@@ -198,110 +212,111 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
-  const [user, setUser] = useState<IUser | null>(null);
-  const [mounted, setMounted] = useState(false);
+  // const [user, setUser] = useState<ITokenUser | null>(null);
+  const user = initialUser;
+  // console.log("Initial user in Navbar:", initialUser);
+  // const [mounted, setMounted] = useState(true);
 
-  useEffect(() => {
-    setMounted(true);
-    const getUser = async () => {
-      const user = await getUserInfo();
-      setUser(user);
-    }
-    getUser();
-  }, [])
+  // useEffect(() => {
+  //   setMounted(true);
+  //   const getUser = async () => {
+  //     const user = await getUserFromToken();
+  //     setUser(user);
+  //   }
+  //   getUser();
+  // }, [])
 
-  console.log(user);
 
   // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return (
-      <section className={cn("py-4 shadow-md", className)}>
-        <div className="container mx-auto">
-          {/* Desktop Menu - Loading state */}
-          <nav className="hidden items-center justify-between lg:flex">
-            <div className="flex items-center gap-6">
-              {/* Logo */}
-              <Link href={logo.url} className="flex items-center gap-2 group">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
-                    <Tv className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
-                </div>
-                <span
-                  className="text-xl font-black tracking-tight"
-                  style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
-                >
-                  Cine<span className="text-red-500">Tube</span>
-                </span>
-              </Link>
-              <div className="flex items-center">
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    {menu.map((item) => renderMenuItem(item))}
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <ModeToggle />
-              {/* Loading state - show login/signup buttons */}
-              <Button asChild variant="outline" size="sm">
-                <a href={auth.login.url}>{auth.login.title}</a>
-              </Button>
-              <Button asChild size="sm">
-                <a href={auth.signup.url}>{auth.signup.title}</a>
-              </Button>
-            </div>
-          </nav>
+  // if (!mounted) {
+  //   return (
+  //     <section className={cn("py-4 shadow-md", className)}>
+  //       <div className="container mx-auto">
+  //         {/* Desktop Menu - Loading state */}
+  //         <nav className="hidden items-center justify-between lg:flex">
+  //           <div className="flex items-center gap-6">
+  //             {/* Logo */}
+  //             <Link href={logo.url} className="flex items-center gap-2 group">
+  //               <div className="relative">
+  //                 <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
+  //                   <Tv className="w-4 h-4 text-white" />
+  //                 </div>
+  //                 <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
+  //               </div>
+  //               <span
+  //                 className="text-xl font-black tracking-tight"
+  //                 style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
+  //               >
+  //                 Cine<span className="text-red-500">Tube</span>
+  //               </span>
+  //             </Link>
+  //             <div className="flex items-center">
+  //               <NavigationMenu>
+  //                 <NavigationMenuList>
+  //                   {menu.map((item) => renderMenuItem(item))}
+  //                 </NavigationMenuList>
+  //               </NavigationMenu>
+  //             </div>
+  //           </div>
+  //           <div className="flex gap-2">
+  //             <ModeToggle />
+  //             {/* Loading state - show login/signup buttons */}
+  //             <Button asChild variant="outline" size="sm">
+  //               <a href={auth.login.url}>{auth.login.title}</a>
+  //             </Button>
+  //             <Button asChild size="sm">
+  //               <a href={auth.signup.url}>{auth.signup.title}</a>
+  //             </Button>
+  //           </div>
+  //         </nav>
 
-          {/* Mobile Menu - Loading state */}
-          <div className="block lg:hidden">
-            <div className="flex items-center justify-between">
-              <Link href={logo.url} className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                  <Tv className="w-4 h-4 text-white" />
-                </div>
-              </Link>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Menu className="size-4" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent className="overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>
-                      <Link href={logo.url} className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                          <Tv className="w-4 h-4 text-white" />
-                        </div>
-                      </Link>
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="flex flex-col gap-4 mt-4">
-                    {menu.map((item) => (
-                      <Link key={item.url} href={item.url} className="text-sm font-medium">
-                        {item.title}
-                      </Link>
-                    ))}
-                    <div className="flex flex-col gap-2 mt-4">
-                      <Button asChild variant="outline" size="sm">
-                        <a href={auth.login.url}>{auth.login.title}</a>
-                      </Button>
-                      <Button asChild size="sm">
-                        <a href={auth.signup.url}>{auth.signup.title}</a>
-                      </Button>
-                    </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  //         {/* Mobile Menu - Loading state */}
+  //         <div className="block lg:hidden">
+  //           <div className="flex items-center justify-between">
+  //             <Link href={logo.url} className="flex items-center gap-2">
+  //               <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+  //                 <Tv className="w-4 h-4 text-white" />
+  //               </div>
+  //             </Link>
+  //             <Sheet>
+  //               <SheetTrigger asChild>
+  //                 <Button variant="outline" size="icon">
+  //                   <Menu className="size-4" />
+  //                 </Button>
+  //               </SheetTrigger>
+  //               <SheetContent className="overflow-y-auto">
+  //                 <SheetHeader>
+  //                   <SheetTitle>
+  //                     <Link href={logo.url} className="flex items-center gap-2">
+  //                       <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+  //                         <Tv className="w-4 h-4 text-white" />
+  //                       </div>
+  //                     </Link>
+  //                   </SheetTitle>
+  //                 </SheetHeader>
+  //                 <div className="flex flex-col gap-4 mt-4">
+  //                   {menu.map((item) => (
+  //                     <Link key={item.url} href={item.url} className="text-sm font-medium">
+  //                       {item.title}
+  //                     </Link>
+  //                   ))}
+  //                   <div className="flex flex-col gap-2 mt-4">
+  //                     <Button asChild variant="outline" size="sm">
+  //                       <a href={auth.login.url}>{auth.login.title}</a>
+  //                     </Button>
+  //                     <Button asChild size="sm">
+  //                       <a href={auth.signup.url}>{auth.signup.title}</a>
+  //                     </Button>
+  //                   </div>
+  //                 </div>
+  //               </SheetContent>
+  //             </Sheet>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   );
+  // }
 
   return (
     <section className={cn("py-4 shadow-md", className)}>

@@ -136,8 +136,9 @@ export default function AdminReviewsPage() {
                     {/* User */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold text-muted-foreground overflow-hidden flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold text-muted-foreground overflow-hidden shrink-0">
                           {review.user?.image
+                            // eslint-disable-next-line @next/next/no-img-element
                             ? <img src={review.user.image} alt={review.user.name} className="w-full h-full object-cover" />
                             : review.user?.name?.charAt(0).toUpperCase()}
                         </div>
