@@ -1,7 +1,6 @@
 
 
-15. password
-   .. proxy.ts 
+15. 
    .. readme .md 
    .. deploy 
 
