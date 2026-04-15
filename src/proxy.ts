@@ -65,8 +65,8 @@ export async function proxy(request: NextRequest) {
           request: { headers: requestHeaders },
           headers: response.headers,
         });
-      } catch (error) {
-        console.error("Error refreshing token:", error);
+      } catch  {
+        
         
       }
 

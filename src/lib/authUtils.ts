@@ -5,6 +5,7 @@ export const authRoutes = [
   "/register",
   "/forgot-password",
   "/reset-password",
+  "/verify-email",
 ];
 
 export const isAuthRoute = (pathname: string) => {
@@ -27,8 +28,15 @@ export const userProtectedRoutes: RouteConfig = {
 };
 
 export const commonProtectedRoutes: RouteConfig = {
-  exact: ["/profile", "/settings", "/watchlist", "/change-password"],
-  pattern: [],
+  exact: [
+    "/profile",
+    "/watchlist",
+    "/subscription",
+    "/purchase-history"
+  ],
+  pattern: [
+    /^\/payment(\/.*)?$/,
+  ],
 };
 
 export const isRouteMatches = (

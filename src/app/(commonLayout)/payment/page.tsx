@@ -1,7 +1,6 @@
-import React from 'react'
+
+import { redirect } from "next/navigation";
 
 export default function page() {
-  return (
-    <div>payment page</div>
-  )
+  return redirect("/dashboard");
 }
