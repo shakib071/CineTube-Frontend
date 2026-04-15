@@ -27,8 +27,8 @@ export default async function AdminDashboardPage() {
 
   const stats = statsRes.success ? statsRes.data : null;
   const newsletter = newsletterRes.success ? newsletterRes.data : null;
-  console.log("Admin stats:", statsRes);
-  console.log("Newsletter subscribers:", newsletter);
+  // console.log("Admin stats:", statsRes);
+  // console.log("Newsletter subscribers:", newsletter);
 
   const statCards = stats
     ? [

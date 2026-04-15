@@ -43,7 +43,7 @@ export async function getNewTokensWithRefreshToken(refreshToken  : string) : Pro
 
         return true;
     } catch (error) {
-        console.error("Error refreshing token:", error);
+        // console.error("Error refreshing token:", error);
         return false;
     }
 }
@@ -67,7 +67,7 @@ export async function getUserInfo() {
         });
 
         if (!res.ok) {
-            console.error("Failed to fetch user info:", res.status, res.statusText);
+            // console.error("Failed to fetch user info:", res.status, res.statusText);
             return null;
         }
 
@@ -75,7 +75,7 @@ export async function getUserInfo() {
 
         return data;
     } catch (error) {
-        console.error("Error fetching user info:", error);
+        // console.error("Error fetching user info:", error);
         return null;
     }
 }

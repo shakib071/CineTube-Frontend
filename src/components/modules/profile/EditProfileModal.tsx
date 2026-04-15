@@ -141,9 +141,9 @@ export function EditProfileModal({ isOpen, onClose, userData }: EditProfileModal
     toast.success("Profile updated successfully!");
     router.refresh(); // re-fetch the profile page
     onClose();
-  } catch (error) {
+  } catch {
     toast.error("Failed to update profile");
-    console.error(error);
+    // console.error(error);
   } finally {
     setIsLoading(false);
   }

@@ -1,8 +1,8 @@
 
 
 15. password
-   .. loading state ..
-   .. not found
+   .. build 
+   .. proxy.ts 
    .. readme .md 
    .. deploy 
    .. form eye button visibility problem (not compusury)

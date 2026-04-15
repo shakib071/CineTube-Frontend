@@ -17,7 +17,7 @@ export default function DashboardHome() {
   });
 
   const stats = statsResponse?.data as UserDashboardStats;
-  console.log(stats);
+  // console.log(stats);
 
   if(isLoading) {
     return (

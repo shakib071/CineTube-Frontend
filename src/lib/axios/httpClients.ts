@@ -74,7 +74,7 @@ const httpGet = async <TData>(endpoint: string, options?: ApiRequestOptions) : P
         });
         return response.data;
     } catch (error) {       
-        console.error(`GET request to ${endpoint} failed:`, error);
+        // console.error(`GET request to ${endpoint} failed:`, error);
         throw error;
     }
 }
@@ -88,7 +88,7 @@ const httpPost = async <TData>(endpoint: string, data: unknown, options?: ApiReq
         });
         return response.data;
     } catch (error) {
-        console.error(`POST request to ${endpoint} failed:`, error);
+        // console.error(`POST request to ${endpoint} failed:`, error);
         throw error;
     }
 }
@@ -102,7 +102,7 @@ const httpPut = async <TData>(endpoint: string, data: unknown, options?: ApiRequ
         });
         return response.data;
     } catch (error) {
-        console.error(`PUT request to ${endpoint} failed:`, error);
+        // console.error(`PUT request to ${endpoint} failed:`, error);
         throw error;
     }
 }
@@ -117,7 +117,7 @@ const httpPatch = async <TData>(endpoint: string, data: unknown, options?: ApiRe
         return response.data;
     }
     catch (error) {
-        console.error(`PATCH request to ${endpoint} failed:`, error);
+        // console.error(`PATCH request to ${endpoint} failed:`, error);
         throw error;
     }
 }
@@ -131,7 +131,7 @@ const httpDelete =  async <TData>(endpoint: string, options?: ApiRequestOptions)
         });
         return response.data;
     } catch (error) {
-        console.error(`DELETE request to ${endpoint} failed:`, error);
+        // console.error(`DELETE request to ${endpoint} failed:`, error);
         throw error;
     }
 }

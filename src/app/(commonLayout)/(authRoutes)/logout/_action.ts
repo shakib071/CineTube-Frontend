@@ -10,8 +10,8 @@ export async function logoutAction() {
     await deleteCookie("better-auth.session_token");
     
     return { success: true };
-  } catch (error) {
-    console.error("Error clearing cookies:", error);
+  } catch  {
+    // console.error("Error clearing cookies:", error);
     return { success: false };
   }
 }

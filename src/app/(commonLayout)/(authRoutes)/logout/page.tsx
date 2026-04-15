@@ -42,7 +42,7 @@ export default function LogoutPage() {
         toast.error("Failed to clear cookies");
       }
     } catch (error: any) {
-      console.error("Logout error:", error);
+      // console.error("Logout error:", error);
       toast.error("Failed to logout");
     } finally {
       setIsLoading(false);

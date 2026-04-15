@@ -16,8 +16,7 @@ async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
     const refresh = await getNewTokensWithRefreshToken(refreshToken);
     if (!refresh) return false;
     return true;
-  } catch (error) {
-    console.error("Error refreshing token in middleware:", error);
+  } catch {
     return false;
   }
 }
@@ -68,6 +67,7 @@ export async function proxy(request: NextRequest) {
         });
       } catch (error) {
         console.error("Error refreshing token:", error);
+        
       }
 
       return response;

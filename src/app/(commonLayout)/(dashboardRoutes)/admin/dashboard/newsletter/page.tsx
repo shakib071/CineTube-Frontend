@@ -46,7 +46,7 @@ export default function AdminNewsletterPage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
 
-  console.log({subscribers})
+  // console.log({subscribers})
 
   // Debounce search
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function AdminNewsletterPage() {
         sortOrder,
       };
       if (debouncedSearch) params.searchTerm = debouncedSearch;
-      console.log({params})
+      // console.log({params})
       const res = await getNewsletterSubscribersAction(params);
       if (res.success && res.data) {
         setSubscribers(res.data.subscribers);
