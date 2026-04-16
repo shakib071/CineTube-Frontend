@@ -11,22 +11,7 @@ interface ApiError {
 }
 
 
-export async function handleOAuthCallbackAction(
-    accessToken: string,
-    refreshToken: string,
-    sessionToken: string,
-    redirectPath: string
-) {
-    try {
-        console.log("OAuth callback:", accessToken, refreshToken, sessionToken, redirectPath);
-        await setTokenInCookies("accessToken", accessToken);
-        await setTokenInCookies("refreshToken", refreshToken);
-        await setTokenInCookies("better-auth.session_token", sessionToken, 24 * 60 * 60);
-        return { success: true };
-    } catch {
-        return { error: "token_storage_failed" };
-    }
-}
+
 
 // ── Verify email with OTP ─────────────────────────────────────────────────────
 export const verifyEmailAction = async (

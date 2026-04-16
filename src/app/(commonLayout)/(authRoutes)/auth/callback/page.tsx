@@ -1,35 +1,40 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { handleOAuthCallbackAction } from "../_action";
 
+import { useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { handleOAuthCallbackAction } from "./_action";
 
 export default function AuthCallbackPage() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const called = useRef(false);
 
-    useEffect(() => {
-        const accessToken = searchParams.get("accessToken");
-        const refreshToken = searchParams.get("refreshToken");
-        const sessionToken = searchParams.get("sessionToken");
-        const redirect = searchParams.get("redirect") || "/user/dashboard";
-        console.log("Received tokens:", { accessToken, refreshToken, sessionToken, redirect });
+  useEffect(() => {
+    if (called.current) return;
+    called.current = true;
 
-        if (!accessToken || !refreshToken) {
-            router.replace("/login?error=oauth_failed");
-            return;
-        }
+    const redirect = searchParams.get("redirect") || "/user/dashboard";
 
-        handleOAuthCallbackAction(accessToken, refreshToken, sessionToken!, redirect)
-            .then((result:any) => {
-                if (result?.error) {
-                    router.replace(`/login?error=${result.error}`);
-                } else {
-                    router.replace(redirect);
-                }
-            });
-    }, []);
+    handleOAuthCallbackAction().then((result) => {
+      if (result.success) {
+        router.replace(redirect);
+      } else {
+        router.replace(`/login?error=${result.error}`);
+      }
+    });
+  }, []);
 
-    return <div>Signing you in...</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <p>Signing you in...</p>
+    </div>
+  );
 }
