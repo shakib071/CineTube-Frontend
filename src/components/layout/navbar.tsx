@@ -385,19 +385,18 @@ const Navbar = ({
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
-              {logo.src ? (
-                <Image
-                  src={logo.src}
-                  className="max-h-8 dark:invert"
-                  alt={logo.alt}
-                  width={32}
-                  height={32}
-                />
-              ) : (
+              <div className="relative">
                 <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
                   <Tv className="w-4 h-4 text-white" />
                 </div>
-              )}
+                <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
+              </div>
+              <span
+                className="text-xl font-black tracking-tight"
+                style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
+              >
+                Cine<span className="text-red-500">Tube</span>
+              </span>
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -409,19 +408,18 @@ const Navbar = ({
                 <SheetHeader>
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
-                      {logo.src ? (
-                        <Image
-                          src={logo.src}
-                          className="max-h-8 dark:invert"
-                          alt={logo.alt}
-                          width={32}
-                          height={32}
-                        />
-                      ) : (
+                      <div className="relative">
                         <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
                           <Tv className="w-4 h-4 text-white" />
                         </div>
-                      )}
+                        <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" />
+                      </div>
+                      <span
+                        className="text-xl font-black tracking-tight"
+                        style={{ fontFamily: "'Georgia', serif", letterSpacing: "-0.03em" }}
+                      >
+                        Cine<span className="text-red-500">Tube</span>
+                      </span>
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -435,12 +433,25 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.title}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
-                    </Button>
+                    {!user ? (
+                      <>
+                        <Button asChild variant="outline">
+                          <a href={auth.login.url}>{auth.login.title}</a>
+                        </Button>
+                        <Button asChild>
+                          <a href={auth.signup.url}>{auth.signup.title}</a>
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button asChild variant="outline">
+                          <a href={auth.profile.url}>{auth.profile.title}</a>
+                        </Button>
+                        <Button asChild>
+                          <a href={auth.logout.url}>{auth.logout.title}</a>
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </SheetContent>

@@ -22,6 +22,12 @@ export default function ProfileActions() {
           Change Password
         </Button>
 
+        <Link href="/forgot-password">
+          <Button variant="outline" className="gap-2">
+            <HelpCircle className="w-4 h-4" />
+            Forgot Password
+          </Button>
+        </Link>
         
       </div>
 

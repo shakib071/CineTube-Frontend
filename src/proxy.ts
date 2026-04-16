@@ -8,6 +8,7 @@ import {
 import { jwtUtils } from "./lib/jwtUtils";
 import { isTokenExpiringSoon } from "./lib/tokenUtils";
 import { getNewTokensWithRefreshToken } from "./services/auth.service";
+import path from "path";
 
 
 
@@ -72,20 +73,41 @@ export async function proxy(request: NextRequest) {
 
       return response;
     }
-   
+
+    if(pathname.startsWith("/verify-email") && !accessToken && !isValidAccessToken){
+      return NextResponse.redirect(
+        new URL("/login", request.url)
+      );
+    }
+
+    if (pathname.startsWith("/verify-email") && accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === true) {
+          return NextResponse.redirect(
+            new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+          );
+    }
 
     // Rule 1 — Logged in users should not access auth pages
     if (isAuth && isValidAccessToken) {
+
+      if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false){
+            return NextResponse.redirect(
+              new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
+            )
+      }
+
+      if (pathname === "/forgot-password" || pathname === "/reset-password") {
+          return NextResponse.next();
+      }
+
       return NextResponse.redirect(
         new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
       );
     }
 
-    if (pathname === "/dashboard") {
-        return NextResponse.redirect(
-          new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
-        );
-    }
+   
+
+
+
 
     // Rule 2 — Public routes → allow
     if (routeOwner === null) {
@@ -99,11 +121,11 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false){
-      return NextResponse.redirect(
-        new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
-      )
-    }
+    // if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false){
+    //   return NextResponse.redirect(
+    //     new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
+    //   )
+    // }
 
     // Rule 4 — Common protected routes → allow any logged in user
     if (routeOwner === "COMMON") {

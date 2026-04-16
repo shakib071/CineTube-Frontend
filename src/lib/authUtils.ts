@@ -5,7 +5,7 @@ export const authRoutes = [
   "/register",
   "/forgot-password",
   "/reset-password",
-  "/verify-email",
+  // "/verify-email",
 ];
 
 export const isAuthRoute = (pathname: string) => {
