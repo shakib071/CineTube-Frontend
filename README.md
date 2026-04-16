@@ -8,8 +8,9 @@ The official frontend for **CineTube**, a full-featured movie and series streami
 
 | Service | URL |
 |---|---|
-| 🖥️ Frontend | `<!-- ADD FRONTEND LIVE URL HERE -->` |
-| ⚙️ Backend API | `<!-- ADD BACKEND LIVE URL HERE -->` |
+| 🖥️ Frontend | [https://cinetube-jet.vercel.app](https://cinetube-jet.vercel.app) |
+| ⚙️ Backend API | [https://cinetube-server-psi.vercel.app](https://cinetube-server-psi.vercel.app) |
+| 🖥️ ER Diagram | [https://drawsql.app/teams/shakib-hasan/diagrams/cinetube](https://drawsql.app/teams/shakib-hasan/diagrams/cinetube) |
 
 ---
 
