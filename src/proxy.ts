@@ -8,7 +8,7 @@ import {
 import { jwtUtils } from "./lib/jwtUtils";
 import { isTokenExpiringSoon } from "./lib/tokenUtils";
 import { getNewTokensWithRefreshToken } from "./services/auth.service";
-import path from "path";
+
 
 
 
@@ -90,9 +90,9 @@ export async function proxy(request: NextRequest) {
     if (isAuth && isValidAccessToken) {
 
       if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false){
-            return NextResponse.redirect(
-              new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
-            )
+        return NextResponse.redirect(
+          new URL("/verify-email?email=" + encodeURIComponent(decodedAccessToken.email), request.url)
+        )
       }
 
       if (pathname === "/forgot-password" || pathname === "/reset-password") {
@@ -104,7 +104,14 @@ export async function proxy(request: NextRequest) {
       );
     }
 
-   
+    if (pathname === "/dashboard") {
+      if (!accessToken || !isValidAccessToken) {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
+      return NextResponse.redirect(
+        new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+      );
+  }
 
 
 
@@ -126,6 +133,14 @@ export async function proxy(request: NextRequest) {
     //     new URL("/verify-email?email="+decodedAccessToken.email+"", request.url)
     //   )
     // }
+   
+
+    // Rule 3.5 - 
+      if (accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false) {
+        return NextResponse.redirect(
+          new URL("/verify-email?email=" + encodeURIComponent(decodedAccessToken.email), request.url)
+        );
+      }
 
     // Rule 4 — Common protected routes → allow any logged in user
     if (routeOwner === "COMMON") {
