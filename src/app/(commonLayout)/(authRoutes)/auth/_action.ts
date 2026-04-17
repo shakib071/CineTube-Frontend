@@ -19,7 +19,14 @@ export const verifyEmailAction = async (
   otp: string
 ): Promise<ApiError | { success: true }> => {
   try {
-    await httpClient.post("/auth/verify-email", { email, otp });
+    const response =await httpClient.post("/auth/verify-email", { email, otp });
+
+    const { accessToken, refreshToken, token } = response.data as { accessToken: string; refreshToken: string; token: string };
+    await setTokenInCookies("accessToken", accessToken);
+    await setTokenInCookies("refreshToken", refreshToken);
+    await setTokenInCookies("better-auth.session_token", token, 24 * 60 * 60);
+    
+
     return { success: true };
   } catch (error: any) {
     return {

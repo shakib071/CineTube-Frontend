@@ -27,6 +27,7 @@ import { loginAction } from "@/app/(commonLayout)/(authRoutes)/login/_action";
 // ── Types ────────────────────────────────────────────
 interface LoginFormProps {
   redirectPath?: string;
+  error?:string;
 }
 
 // ── Field error helper ────────────────────────────────
@@ -101,9 +102,15 @@ const AppField = ({
 };
 
 // ── Main LoginForm ────────────────────────────────────
-const LoginForm = ({ redirectPath }: LoginFormProps) => {
+const LoginForm = ({ redirectPath , error }: LoginFormProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const errorMessages: Record<string, string> = {
+    blocked: "Your account has been blocked. Please contact support.",
+    suspended: "Your account has been suspended.",
+    deleted: "This account no longer exists.",
+  };
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: ILoginPayload) =>
@@ -233,6 +240,13 @@ const LoginForm = ({ redirectPath }: LoginFormProps) => {
                 Forgot password?
               </Link>
             </div>
+
+            {error && errorMessages[error] && (
+              <Alert className="bg-red-500/10 border-red-500/30 text-red-400">
+                <AlertCircle className="w-4 h-4" />
+                <AlertDescription>{errorMessages[error]}</AlertDescription>
+              </Alert>
+            )}
 
             {/* Server error */}
             {serverError && (

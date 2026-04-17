@@ -8,6 +8,7 @@ import {
 import { jwtUtils } from "./lib/jwtUtils";
 import { isTokenExpiringSoon } from "./lib/tokenUtils";
 import { getNewTokensWithRefreshToken } from "./services/auth.service";
+import { deleteCookie } from "./lib/cookieUtils";
 
 
 
@@ -80,6 +81,26 @@ export async function proxy(request: NextRequest) {
       );
     }
 
+    if(accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.status !== "ACTIVE"){
+      let errorStatus = "deleted";
+
+      if(decodedAccessToken?.status === "SUSPENDED"){
+        errorStatus = "suspended";
+      }
+
+      if(decodedAccessToken?.status === "BLOCKED"){
+        errorStatus = "blocked";
+      }
+
+     
+      await deleteCookie("accessToken");
+      await deleteCookie("refreshToken");
+      await deleteCookie("better-auth.session_token");
+      return NextResponse.redirect(
+        new URL("/login?error=" + errorStatus, request.url)
+      )
+    }
+
     if (pathname.startsWith("/verify-email") && accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === true) {
           return NextResponse.redirect(
             new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
@@ -136,11 +157,12 @@ export async function proxy(request: NextRequest) {
    
 
     // Rule 3.5 - 
-      if (accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false) {
-        return NextResponse.redirect(
-          new URL("/verify-email?email=" + encodeURIComponent(decodedAccessToken.email), request.url)
-        );
-      }
+    if (accessToken && isValidAccessToken && decodedAccessToken && decodedAccessToken?.emailVarified === false) {
+      return NextResponse.redirect(
+        new URL("/verify-email?email=" + encodeURIComponent(decodedAccessToken.email), request.url)
+      );
+    }
+    
 
     // Rule 4 — Common protected routes → allow any logged in user
     if (routeOwner === "COMMON") {
